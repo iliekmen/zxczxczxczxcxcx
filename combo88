@@ -1,0 +1,18 @@
+local player = game.Players.LocalPlayer
+local char = player.Character or player.CharacterAdded:Wait()
+local hum = char:FindFirstChild("Humanoid")
+local oldHealth = hum.Health
+
+hum.HealthChanged:Connect(function(newHealth)
+
+    if newHealth < oldHealth then
+        print("niggas")
+                    local benunlocked = Instance.new("Sound")
+                    benunlocked.Name = "Penis"
+                    benunlocked.Volume = 1
+                    benunlocked.SoundId = "rbxassetid://6518811702"
+                    benunlocked.Parent = game:GetService("SoundService")
+                    benunlocked.Playing = true
+    end
+
+end)
