@@ -1,0 +1,81 @@
+        local textlab = Instance.new("TextLabel")
+        textlab.Size = UDim2.new(0, 200, 0, 28)
+        textlab.BackgroundTransparency = 1
+        textlab.TextColor3 = Color3.new(1, 1, 1)
+        textlab.TextStrokeTransparency = 0
+        textlab.TextStrokeColor3 = Color3.new(0.24, 0.24, 0.24)
+        textlab.Font = Enum.Font.SourceSans
+        textlab.TextSize = 28
+        textlab.Text = "1 ms"
+        textlab.BackgroundColor3 = Color3.new(0, 0, 0)
+        textlab.Position = UDim2.new(1, -254, 0, -33)
+        textlab.TextXAlignment = Enum.TextXAlignment.Right
+        textlab.BorderSizePixel = 0
+        textlab.Parent = game.CoreGui.RobloxGui
+        spawn(function()
+            repeat
+                wait(1)
+                local ping = tonumber(game:GetService("Stats"):FindFirstChild("PerformanceStats").Ping:GetValue())
+                ping = math.floor(ping)
+                textlab.Text = ping.." ms"
+            until textlab == nil
+        end)
+
+
+        _G.AutoReload = true -- change to false if u don't want it anymore.
+
+        while _G.AutoReload == true and game:GetService("RunService").Heartbeat:Wait() do
+        if game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Tool") then
+                    if game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Tool"):FindFirstChild("Ammo") then
+                        if game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Tool"):FindFirstChild("Ammo").Value <= 0 then
+                            game:GetService("ReplicatedStorage").MainEvent:FireServer("Reload", game:GetService("Players").LocalPlayer.Character:FindFirstChildWhichIsA("Tool")) 
+                            wait(1)
+                        end
+                    end
+                end
+        end
+-- goofy
+        for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+            if v:IsA("MeshPart") then
+                v.Material = "ForceField"
+                spawn(function()
+                    while wait() do
+                        for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+                            if v:IsA("MeshPart") then
+                                v.Color = Color3.fromHSV(tick()%5/5,1,1)
+                                wait()
+                            end
+                        end 
+                    end
+                end)
+            end
+        end
+
+
+
+
+
+
+
+        game:GetService"Lighting".FogEnd = 99999
+
+while do true
+    for _, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+        if v:IsA("Script") and v.Name ~= "Health" and v.Name ~= "Sound" and v:FindFirstChild("LocalScript") then
+            v:Destroy()
+        end
+    end
+    game.Players.LocalPlayer.CharacterAdded:Connect(function(char)
+        repeat
+            wait()
+        until game.Players.LocalPlayer.Character
+        char.ChildAdded:Connect(function(child)
+            if child:IsA("Script") then 
+                wait(0.1)
+                if child:FindFirstChild("LocalScript") then
+                    child.LocalScript:FireServer()
+                end
+            end
+        end)
+    end)
+end
